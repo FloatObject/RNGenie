@@ -1,0 +1,6 @@
+<Project>
+	<PropertyGroup>
+		<!-- Turn on NuGet lock files -->
+		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+	</PropertyGroup>
+</Project>
