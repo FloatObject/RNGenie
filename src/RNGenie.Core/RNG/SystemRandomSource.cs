@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace RNGenie.RNG;
+namespace RNGenie.Core.RNG;
 
 public sealed class SystemRandomSource : IRandomSource
 {
@@ -11,5 +11,5 @@ public sealed class SystemRandomSource : IRandomSource
 
     public int NextInt(int minInclusive, int maxExclusive) => _r.Next(minInclusive, maxExclusive);
     public double NextDouble() => _r.NextDouble();
-    public ulong StateHash => 0; // non-deterministic across runtimes; placeholder
+    public ulong StateHash => 0; // non-deterministic across runtimes, placeholder
 }

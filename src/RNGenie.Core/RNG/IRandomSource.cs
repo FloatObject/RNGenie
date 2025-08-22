@@ -1,4 +1,4 @@
-﻿namespace RNGenie.RNG;
+﻿namespace RNGenie.Core.RNG;
 
 public interface IRandomSource
 {

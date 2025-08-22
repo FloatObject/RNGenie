@@ -1,7 +1,7 @@
-﻿using RNGenie.RNG;
-using RNGenie.Picks;
-using RNGenie.Dice;
-using RNGenie.Dist;
+﻿using RNGenie.Core.RNG;
+using RNGenie.Core.Picks;
+using RNGenie.Core.Dice;
+using RNGenie.Core.Dist;
 
 var rng = new Pcg32Source(seed: 123);
 

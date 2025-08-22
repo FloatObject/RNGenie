@@ -1,6 +1,6 @@
-﻿using RNGenie.RNG;
+﻿using RNGenie.Core.RNG;
 
-namespace RNGenie.Dist;
+namespace RNGenie.Core.Dist;
 
 public interface IDistribution<T> { T Sample(IRandomSource rng); }
 

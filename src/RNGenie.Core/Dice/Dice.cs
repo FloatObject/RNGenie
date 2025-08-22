@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
-using RNGenie.RNG;
+using RNGenie.Core.RNG;
 
-namespace RNGenie.Dice;
+namespace RNGenie.Core.Dice;
 
 public static class Dice
 {

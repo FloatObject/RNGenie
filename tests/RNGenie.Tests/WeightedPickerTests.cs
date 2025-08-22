@@ -1,5 +1,5 @@
-﻿using RNGenie.Picks;
-using RNGenie.RNG;
+﻿using RNGenie.Core.Picks;
+using RNGenie.Core.RNG;
 using Xunit;
 
 public class WeightedPickerTests

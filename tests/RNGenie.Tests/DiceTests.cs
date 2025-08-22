@@ -1,5 +1,5 @@
-﻿using RNGenie.Dice;
-using RNGenie.RNG;
+﻿using RNGenie.Core.Dice;
+using RNGenie.Core.RNG;
 using Xunit;
 
 public class DiceTests

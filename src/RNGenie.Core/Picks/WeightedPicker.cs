@@ -1,5 +1,6 @@
-﻿namespace RNGenie.Picks;
-using RNGenie.RNG;
+﻿using RNGenie.Core.RNG;
+
+namespace RNGenie.Core.Picks;
 
 public sealed class WeightedPicker<T>
 {
