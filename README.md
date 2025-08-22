@@ -12,7 +12,7 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 ## ✨ Features
 - **Weighted Picks** (`WeightedPicker<T>`) for loot tables and drop chances
 - **Dice Roller** with standard RPG notation (`3d6+2`, exploding dice, adv/dis coming soon)
-- **Probability distributions** (uniform, triangular, normal approximation)
+- **Probability Distributions** (uniform, triangular, normal approximation)
 - **Loot Tables** with conditional chaining & JSON definitions
 - **Simulation Helpers** (Monte Carlo runner)
 - **Pluggable RNG Sources** (use System.Random, PCG32, or your own)
