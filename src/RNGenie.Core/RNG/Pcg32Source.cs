@@ -64,9 +64,13 @@ public sealed class Pcg32Source : IRandomSource
     /// Uses rejection sampling to avoid modulo bias.
     /// </summary>
     /// <param name="minInclusive">Inclusive lower bound.</param>
-    /// <param name="maxExclusive">Exclusive upper bound. Must be greater than <paramref name="minInclusive"/>.</param>
-    /// <returns>An integer in the requested range.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown if bounds are invalid.</exception>
+    /// <param name="maxExclusive">Exclusive upper bound.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when <paramref name="maxExclusive"/> is less than or equal to <paramref name="minInclusive"/>.
+    /// </exception>
+    /// <returns>
+    /// An integer <c>x</c> such that <c>minInclusive <= x < maxExclusive</c>.
+    /// </returns>
     public int NextInt(int minInclusive, int maxExclusive)
     {
         if (minInclusive >= maxExclusive)
@@ -85,7 +89,9 @@ public sealed class Pcg32Source : IRandomSource
     /// Returns a double uniformly distributed in <c>[0, 1)</c>.
     /// Combines two 32-bit draws to build a 53-bit mantissa for good precision.
     /// </summary>
-    /// <returns>A double in <c>[0, 1)</c>.</returns>
+    /// <returns>
+    /// A double <c>d</c> such that <c>0 <= d < 1</c>.
+    /// </returns>
     public double NextDouble()
     {
         ulong hi = NextUInt();
