@@ -15,7 +15,7 @@ public interface IRandomSource
     /// <param name="minInclusive">Inclusive lower bound.</param>
     /// <param name="maxExclusive">Exclusive upper bound.</param>
     /// <returns>
-    /// An integer <c>x</c> such that <c>minInclusive <= x < maxExclusive</c>.
+    /// An integer <c>x</c> such that <c>minInclusive &lt;= x &lt; maxExclusive</c>.
     /// </returns>
     int NextInt(int minInclusive, int maxExclusive);
 
@@ -23,7 +23,7 @@ public interface IRandomSource
     /// Returns a uniformly distributed double in the interval <c>[0,1)</c>.
     /// </summary>
     /// <returns>
-    /// A double <c>d</c> such that <c>0 <= d < 1</c>.
+    /// A double <c>d</c> such that <c>0 &lt;= d &lt; 1</c>.
     /// </returns>
     double NextDouble();
 

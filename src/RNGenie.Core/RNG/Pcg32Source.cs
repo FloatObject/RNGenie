@@ -69,7 +69,7 @@ public sealed class Pcg32Source : IRandomSource
     /// Thrown when <paramref name="maxExclusive"/> is less than or equal to <paramref name="minInclusive"/>.
     /// </exception>
     /// <returns>
-    /// An integer <c>x</c> such that <c>minInclusive <= x < maxExclusive</c>.
+    /// An integer <c>x</c> such that <c>minInclusive &lt;= x &lt; maxExclusive</c>.
     /// </returns>
     public int NextInt(int minInclusive, int maxExclusive)
     {
@@ -81,7 +81,12 @@ public sealed class Pcg32Source : IRandomSource
         // Bounded rejection sampling (unbiased).
         uint threshold = (uint)(-range) % range;
         uint r;
-        do { r = NextUInt(); } while (r < threshold);
+        do 
+        { 
+            r = NextUInt(); 
+        } 
+        while (r < threshold);
+
         return (int)(r % range) + minInclusive;
     }
 
@@ -90,7 +95,7 @@ public sealed class Pcg32Source : IRandomSource
     /// Combines two 32-bit draws to build a 53-bit mantissa for good precision.
     /// </summary>
     /// <returns>
-    /// A double <c>d</c> such that <c>0 <= d < 1</c>.
+    /// A double <c>d</c> such that <c>0 &lt;= d &lt; 1</c>.
     /// </returns>
     public double NextDouble()
     {

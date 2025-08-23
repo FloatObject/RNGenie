@@ -29,6 +29,8 @@
 		<!-- Don't auto-pack on build -->
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		
 		<PublishRepositoryUrl>true</PublishRepositoryUrl>
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<Deterministic>true</Deterministic>
