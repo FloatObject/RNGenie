@@ -1,6 +1,48 @@
 <Project>
+	
 	<PropertyGroup>
+		
+		<!-- Version -->
+		<Version>0.1.0</Version>
+		
+		<!-- Symbols/debug -->
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<DebugType>portable</DebugType>
+		
+		<!-- Metadata -->
+		<Authors>FloatObject</Authors>
+		<Company></Company>
+		<Description>Lightweight, extensible RNG helpers for C# (dice, loot, distributions, Monte Carlo)</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/FloatObject/RNGenie</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/FloatObject/RNGenie</PackageProjectUrl>
+		<PackageTags>rng random probability dice games simulations</PackageTags>
+		
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		
 		<!-- Turn on NuGet lock files -->
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+		
+		<!-- Don't auto-pack on build -->
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<Deterministic>true</Deterministic>
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		
 	</PropertyGroup>
+	
+	<ItemGroup Condition="'$(IsPackable)' == 'true'">
+		<None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+		<None Include="$(MSBuildThisFileDirectory)LICENSE" Pack="true" PackagePath="\" />
+	</ItemGroup>
+	
+	<PropertyGroup Condition="'$(IsPackable)' == 'true'">
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+	</PropertyGroup>
+	
 </Project>
