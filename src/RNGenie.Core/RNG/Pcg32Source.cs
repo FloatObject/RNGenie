@@ -21,6 +21,17 @@ public sealed class Pcg32Source : IRandomSource
     private readonly ulong _initialSeed;
     private readonly ulong _initialSeq;
 
+    // Helper to derive increment from stream/sequence id.
+    private static ulong SeqToInc(ulong seq) => (seq << 1) | 1UL;
+
+    // Direct state/inc constructor (to avoid the usual warm-up).
+    // Used for forking operations.
+    private Pcg32Source(ulong state, ulong inc, bool direct)
+    {
+        _state = state;
+        _inc = inc;
+    }
+
     /// <summary>
     /// Creates a new PCG32 RNG with the given <paramref name="seed"/> and stream/sequence id <paramref name="seq"/>.
     /// <para>
@@ -38,8 +49,8 @@ public sealed class Pcg32Source : IRandomSource
         _initialSeq = seq;
 
         _state = 0;
-        _inc = (seq << 1) | 1UL;
-        NextUInt(); // warm up
+        _inc = SeqToInc(seq);
+        NextUInt();           // warm-up
         _state += seed;
         NextUInt();
     }
@@ -59,18 +70,7 @@ public sealed class Pcg32Source : IRandomSource
         return (xorshifted >> rot) | (xorshifted << ((-rot) & 31));
     }
 
-    /// <summary>
-    /// Returns a uniformly distributed integer in the half-open interval <c>[minInclusive, maxExclusive)</c>.
-    /// Uses rejection sampling to avoid modulo bias.
-    /// </summary>
-    /// <param name="minInclusive">Inclusive lower bound.</param>
-    /// <param name="maxExclusive">Exclusive upper bound.</param>
-    /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown when <paramref name="maxExclusive"/> is less than or equal to <paramref name="minInclusive"/>.
-    /// </exception>
-    /// <returns>
-    /// An integer <c>x</c> such that <c>minInclusive &lt;= x &lt; maxExclusive</c>.
-    /// </returns>
+    /// <inheritdoc />
     public int NextInt(int minInclusive, int maxExclusive)
     {
         if (minInclusive >= maxExclusive)
@@ -90,13 +90,7 @@ public sealed class Pcg32Source : IRandomSource
         return (int)(r % range) + minInclusive;
     }
 
-    /// <summary>
-    /// Returns a double uniformly distributed in <c>[0, 1)</c>.
-    /// Combines two 32-bit draws to build a 53-bit mantissa for good precision.
-    /// </summary>
-    /// <returns>
-    /// A double <c>d</c> such that <c>0 &lt;= d &lt; 1</c>.
-    /// </returns>
+    /// <inheritdoc />
     public double NextDouble()
     {
         ulong hi = NextUInt();
@@ -105,10 +99,7 @@ public sealed class Pcg32Source : IRandomSource
         return m * (1.0 / (1UL << 53));     // [0,1)
     }
 
-    /// <summary>
-    /// Fills the provided <paramref name="buffer"/> with random bytes.
-    /// </summary>
-    /// <param name="buffer">Destination span to fill.</param>
+    /// <inheritdoc />
     public void NextBytes(Span<byte> buffer)
     {
         int i = 0;
@@ -130,7 +121,9 @@ public sealed class Pcg32Source : IRandomSource
 
     /// <summary>
     /// Serializes the current internal state (16 bytes: 8 for state, 8 for stream increment).
+    /// <remarks>
     /// Useful for deterministic save/restore and replay systems.
+    /// </remarks>
     /// </summary>
     /// <returns>Byte array containing the serialized state.</returns>
     public byte[] Save()
@@ -157,27 +150,38 @@ public sealed class Pcg32Source : IRandomSource
     }
 
     /// <summary>
+    /// Creates a new RNG <b>forked from the current state</b>,
+    /// using the generator's current internal state as the seed and the original sequence id as the stream.
+    /// <remarks>
+    /// Use this when you want to <b>branch the timeline</b>: the fork will reproduce
+    /// the same next draws as the main generator would, diverging only after.
+    /// <seealso href="https://github.com/FloatObject/RNGenie/blob/master/docs/forking-streams.md">Forking Guide</seealso>
+    /// </remarks>
+    /// </summary>
+    /// <returns>A new <see cref="Pcg32Source"/> that continues deterministically from this point.</returns>
+    public Pcg32Source Fork() => new Pcg32Source(_state, _inc, direct: true);
+
+    /// <summary>
     /// Creates a new RNG <b>forked from the current state</b>, using the generator's
-    /// current internal state as the seed and the provided <paramref name="streamId"/> as the stream selector.
-    /// <para>
-    /// Use this when you want to <b>branch the timeline</b>: explore alternate outcomes deterministically from this exact point
-    /// (e.g. replays, branching simulations, "what-if" scenarios).
-    /// </para>
-    /// <para>
-    /// Results will depend on how many random numbers have already been consumed before the fork.
-    /// </para>
+    /// current internal state as the seed and the specified <paramref name="streamId"/> as the stream.
+    /// <remarks>
+    /// Use this when you want to <b>branch the timeline into a distinct stream</b>:
+    /// the fork will evolve independently from this exact point, producing a different sequence than the main generator or other streams.
+    /// <seealso href="https://github.com/FloatObject/RNGenie/blob/master/docs/forking-streams.md">Forking Guide</seealso>
+    /// </remarks>
     /// </summary>
     /// <param name="streamId">Stream/sequence identifier for the forked RNG.</param>
     /// <returns>A new <see cref="Pcg32Source"/> that evolves independently from this point.</returns>
-    public Pcg32Source Fork(ulong streamId) => new Pcg32Source(_state, streamId);
+    public Pcg32Source Fork(ulong streamId) => new Pcg32Source(_state, SeqToInc(streamId), direct: true);
 
     /// <summary>
     /// Creates a new RNG <b>derived from the original seed</b>, using the same initial seed as this generator
     /// and the provided <paramref name="streamId"/> as the stream selector.
-    /// <para>
+    /// <remarks>
     /// Use this when you want <b>independent, call-order-stable streams</b> (e.g. one stream for gameplay logic, another for visual effects).
     /// Each stream produces reproducible results regardless of how other streams are used.
-    /// </para>
+    /// <seealso href="https://github.com/FloatObject/RNGenie/blob/master/docs/forking-streams.md">Forking Guide</seealso>
+    /// </remarks>
     /// </summary>
     /// <param name="streamId">Stream/sequence identifier for the new independent RNG stream.</param>
     /// <returns>A new <see cref="Pcg32Source"/> seeded from the original seed.</returns>
@@ -190,8 +194,6 @@ public sealed class Pcg32Source : IRandomSource
     /// <returns></returns>
     public Pcg32Source NewOriginalStream() => new Pcg32Source(_initialSeed, _initialSeq);
 
-    /// <summary>
-    /// A hash-like view of the current internal state, useful for debugging or sanity checks (not cryptographic).
-    /// </summary>
+    /// <inheritdoc />
     public ulong StateHash => _state;
 }

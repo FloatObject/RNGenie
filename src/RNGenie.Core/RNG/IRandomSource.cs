@@ -14,6 +14,9 @@ public interface IRandomSource
     /// </summary>
     /// <param name="minInclusive">Inclusive lower bound.</param>
     /// <param name="maxExclusive">Exclusive upper bound.</param>
+    /// <exception cref="ArgumentOutOfRangeException">
+    /// Thrown when <paramref name="maxExclusive"/> is less than or equal to <paramref name="minInclusive"/>.
+    /// </exception>
     /// <returns>
     /// An integer <c>x</c> such that <c>minInclusive &lt;= x &lt; maxExclusive</c>.
     /// </returns>
@@ -26,6 +29,12 @@ public interface IRandomSource
     /// A double <c>d</c> such that <c>0 &lt;= d &lt; 1</c>.
     /// </returns>
     double NextDouble();
+
+    /// <summary>
+    /// Fills the provided buffer with random bytes.
+    /// </summary>
+    /// <param name="buffer">Destination span to fill with random data.</param>
+    void NextBytes(Span<byte> buffer);
 
     /// <summary>
     /// Gets a hash-like view of the current internal state of the RNG,

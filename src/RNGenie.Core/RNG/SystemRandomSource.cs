@@ -32,17 +32,7 @@ public sealed class SystemRandomSource : IRandomSource
     public SystemRandomSource(int? seed = null)
         => _r = seed is null ? Random.Shared : new Random(seed.Value);
 
-    /// <summary>
-    /// Returns a uniformly distributed integer in the half-open interval <c>[minInclusive, maxExclusive)</c>.
-    /// </summary>
-    /// <param name="minInclusive">Inclusive lower bound.</param>
-    /// <param name="maxExclusive">Exclusive upper bound.</param>
-    /// <exception cref="ArgumentOutOfRangeException">
-    /// Thrown when <paramref name="maxExclusive"/> is less than or equal to <paramref name="minInclusive"/>.
-    /// </exception>
-    /// <returns>
-    /// An integer <c>x</c> such that <c>minInclusive &lt;= x &lt; maxExclusive</c>.
-    /// </returns>
+    /// <inheritdoc />
     public int NextInt(int minInclusive, int maxExclusive)
     {
         if (minInclusive >= maxExclusive)
@@ -51,13 +41,11 @@ public sealed class SystemRandomSource : IRandomSource
         return _r.Next(minInclusive, maxExclusive);
     }
 
-    /// <summary>
-    /// Returns a uniformly distributed double in the interval <c>[0,1)</c>.
-    /// </summary>
-    /// <returns>
-    /// A double <c>d</c> such that <c>0 &lt;= d &lt; 1</c>.
-    /// </returns>
+    /// <inheritdoc />
     public double NextDouble() => _r.NextDouble();
+
+    /// <inheritdoc />
+    public void NextBytes(Span<byte> buffer) => _r.NextBytes(buffer);
 
     /// <summary>
     /// A hash-like view of the current internal state, useful for debugging or sanity checks.

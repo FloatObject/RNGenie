@@ -16,6 +16,7 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 - **Loot Tables** with conditional chaining & JSON definitions
 - **Simulation Helpers** (Monte Carlo runner)
 - **Pluggable RNG Sources** (use System.Random, PCG32, or your own)
+- **Branching RNG Timelines (Pcg32)** branch the timeline or spin up independent streams (see [Forking & Streams](docs/forking-streams.md))
 
 ---
 

@@ -1,18 +1,29 @@
-﻿using RNGenie.Core.RNG;
-using RNGenie.Core.Picks;
-using RNGenie.Core.Dice;
-using RNGenie.Core.Dist;
+﻿namespace RNGenie.Samples
+{
+    internal static class Program
+    {
+        private static readonly Dictionary<string, (string Title, Action run)> Demos =
+            new(StringComparer.OrdinalIgnoreCase)
+            {
+                ["dice"]   = ("Dice: roll notations (e.g. 3d6+2)", DiceDemo.Run),
+                ["picker"] = ("Weighted Picker: loot rarity sampler", WeightedPickerDemo.Run),
+                ["dist"]   = ("Distributions: Uniform, Triangular, Normal", DistributionsDemo.Run),
+                ["fork"]   = ("Forking: Fork() vs NewStreamFromSeed()", ForkingDemo.Run),
+                ["crypto"] = ("Crypto RNG: secure ints/doubles/token", CryptoDemo.Run),
+            };
 
-var rng = new Pcg32Source(seed: 123);
+        static void Main(string[] args)
+        {
+            if (args.Length > 0 && Demos.TryGetValue(args[0], out var quick))
+            {
+                quick.run();
+                return;
+            }
 
-var rarity = new WeightedPicker<string>()
-    .Add("Common", 0.75).Add("Rare", 0.20).Add("Epic", 0.05)
-    .One(rng);
-
-var (total, rolls, mod) = Dice.Roll("3d6+2", rng);
-
-var damage = new Triangular(5, 12, 20).Sample(rng);
-
-Console.WriteLine($"Rarity: {rarity}");
-Console.WriteLine($"Dice: {total} (rolls: {string.Join(",", rolls)} {mod:+#;-#;0})");
-Console.WriteLine($"Damage: {damage:F2}");
+            ConsoleMenu.Run(
+                header: "RNGenie Samples",
+                subtitle: "Choose a demo (arrow keys or number, Enter to run, Q to quit):",
+                items: Demos);
+        }
+    }
+}
