@@ -102,9 +102,9 @@ This is not a bug - it is a property of the PCG32 algorithm itself:
 - PCG32 generates its output from the old state before applying the update step.
 - The streamId only affects the **increment**, which is applied when advancing to the next state.
 - As a result:
-- - `Fork()` (same stream):         first output matches main's next, and stays in lockstep forever.
-- - `Fork(streamId)` (diff stream): first output matches main's next, but diverges starting with the second draw.
-- - `NewStreamFromSeed(streamId)`:  fully independent immediately, since it's seeded from the original seed, not the current state.
+  - `Fork()` (same stream):         first output matches main's next, and stays in lockstep forever.
+  - `Fork(streamId)` (diff stream): first output matches main's next, but diverges starting with the second draw.
+  - `NewStreamFromSeed(streamId)`:  fully independent immediately, since it's seeded from the original seed, not the current state.
 
 This means seeing the same value on the first draw of a different-stream fork is expected.
 Independence really begins on the second draw.
