@@ -10,14 +10,14 @@ namespace RNGenie.Core.Dist
     /// </para>
     /// </summary>
     /// <typeparam name="T">The type of value produced by the distribution.</typeparam>
-    public interface IDistribution<T> 
-    { 
+    public interface IDistribution<T>
+    {
         /// <summary>
         /// Draws a single sample from the distribution using the given random source.
         /// </summary>
         /// <param name="rng">Random source used for sampling.</param>
         /// <returns>A value distributed according to this distribution.</returns>
-        T Sample(IRandomSource rng); 
+        T Sample(IRandomSource rng);
     }
 
     /// <summary>
@@ -90,7 +90,7 @@ namespace RNGenie.Core.Dist
         /// <exception cref="ArgumentOutOfRangeException">
         /// Thrown when <paramref name="std"/> is less than or equal to 0.
         /// </exception>
-        public NormalBoxMuller(double mean = 0, double std = 1) 
+        public NormalBoxMuller(double mean = 0, double std = 1)
         {
             if (std <= 0)
                 throw new ArgumentOutOfRangeException(nameof(std), "Standard deviation must be greater than 0.");

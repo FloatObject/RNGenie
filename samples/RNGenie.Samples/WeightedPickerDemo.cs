@@ -23,7 +23,7 @@ namespace RNGenie.Samples
             Console.WriteLine("Loot drops:");
 
             for (int i = 0; i < 10; i++)
-                Console.WriteLine($" {i+1,2}: {picker.One(rng)}");
+                Console.WriteLine($" {i + 1,2}: {picker.One(rng)}");
         }
     }
 }

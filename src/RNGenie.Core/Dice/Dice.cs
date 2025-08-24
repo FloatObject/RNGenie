@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+
 using RNGenie.Core.RNG;
 
 namespace RNGenie.Core.Dice

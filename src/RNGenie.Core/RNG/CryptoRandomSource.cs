@@ -1,5 +1,4 @@
-﻿using System;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 
 namespace RNGenie.Core.RNG
 {
@@ -14,7 +13,7 @@ namespace RNGenie.Core.RNG
     /// </summary>
     public sealed class CryptoRandomSource : IRandomSource, IDisposable
     {
-        private static readonly double InvTwo64 = 1.0 / 18446744073709551616.0; // 1 / 2^64
+        private static readonly double _invTwo64 = 1.0 / 18446744073709551616.0; // 1 / 2^64
         private readonly RandomNumberGenerator _rng;
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace RNGenie.Core.RNG
             _rng.GetBytes(buffer);
             ulong value = BitConverter.ToUInt64(buffer);
             // Map to [0,1): multiply by 1/2^64 (so the max maps to just under 1.0).
-            return value * InvTwo64;
+            return value * _invTwo64;
         }
 
         /// <inheritdoc />

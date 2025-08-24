@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RNGenie.Core.RNG;
+﻿namespace RNGenie.Core.RNG;
 
 /// <summary>
 /// Minimal <b>PCG32 (XSH-RR)</b> random number generator.
@@ -81,10 +79,10 @@ public sealed class Pcg32Source : IRandomSource
         // Bounded rejection sampling (unbiased).
         uint threshold = (uint)(-range) % range;
         uint r;
-        do 
-        { 
-            r = NextUInt(); 
-        } 
+        do
+        {
+            r = NextUInt();
+        }
         while (r < threshold);
 
         return (int)(r % range) + minInclusive;
