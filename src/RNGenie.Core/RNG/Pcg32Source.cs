@@ -169,6 +169,10 @@ public sealed class Pcg32Source : IRandomSource
     /// the fork will evolve independently from this exact point, producing a different sequence than the main generator or other streams.
     /// <seealso href="https://github.com/FloatObject/RNGenie/blob/master/docs/forking-streams.md">Forking Guide</seealso>
     /// </remarks>
+    /// <para>
+    /// Note: because PCG32 outputs are derived from the <i>old state</i>, the fork's <b>first draw will always match the main generator's next draw</b>.
+    /// Divergence begins on the <b>second draw</b>.
+    /// </para>
     /// </summary>
     /// <param name="streamId">Stream/sequence identifier for the forked RNG.</param>
     /// <returns>A new <see cref="Pcg32Source"/> that evolves independently from this point.</returns>

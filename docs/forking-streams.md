@@ -60,9 +60,11 @@ Legend:
 
 Case 1: Fork()  (same stream, same state)
 
+```text
  Main:   [42] -> 57 -> 91 -> ...
  Fork:           57 -> 91 -> ...
-                 ^ starts at same next value
+                 ^ if advanced together, always the same results
+```
 
 => Sequences line up immediately, then diverge as they advance separately.
 
@@ -70,9 +72,11 @@ Case 1: Fork()  (same stream, same state)
 
 Case 2: Fork(streamId)  (same state, different stream)
 
+```text
  Main:   [42] -> 57 -> 91 -> ...
- Diff:   [42] -> 33 -> 88 -> ...
-                 ^ diverges right away
+ Diff:   [42] -> 57 -> 88 -> ...
+                       ^ diverges on second draw
+```
 
 => Both share the same state but use different sequence increments.
 
@@ -80,9 +84,27 @@ Case 2: Fork(streamId)  (same state, different stream)
 
 Case 3: NewStreamFromSeed(streamId)  (original seed, independent stream)
 
+```text
  Main:   [seed=123] -> 57 -> 91 -> ...
  Stream: [seed=123] -> 96 -> 12 -> ...
-                       ^ independent from the start
+                       ^ restarts at the beginning of the seed
+```
 
 => Always produces a consistent sequence for a given seed+streamId,
    regardless of how far the main RNG has advanced.
+
+## Note on first-draw behavior (PCG32)
+
+When you fork a Pcg32Source from the same state, the first draw from both the main RNG and any fork
+(same-stream or different-stream) will always be identical.
+
+This is not a bug - it is a property of the PCG32 algorithm itself:
+- PCG32 generates its output from the old state before applying the update step.
+- The streamId only affects the **increment**, which is applied when advancing to the next state.
+- As a result:
+- - `Fork()` (same stream):         first output matches main's next, and stays in lockstep forever.
+- - `Fork(streamId)` (diff stream): first output matches main's next, but diverges starting with the second draw.
+- - `NewStreamFromSeed(streamId)`:  fully independent immediately, since it's seeded from the original seed, not the current state.
+
+This means seeing the same value on the first draw of a different-stream fork is expected.
+Independence really begins on the second draw.
