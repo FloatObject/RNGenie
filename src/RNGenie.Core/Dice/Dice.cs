@@ -21,7 +21,7 @@ namespace RNGenie.Core.Dice
     /// </summary>
     public static class Dice
     {
-        private static readonly Regex Rx = new(@"^\s*(\d+)d(\d+)([+-]\d+)?\s*$",
+        private static readonly Regex _rx = new(@"^\s*(\d+)d(\d+)([+-]\d+)?\s*$",
                                                RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace RNGenie.Core.Dice
         /// </returns>
         public static (int total, int[] rolls, int modifier) Roll(string notation, IRandomSource rng)
         {
-            var m = Rx.Match(notation);
+            Match m = _rx.Match(notation);
             if (!m.Success)
                 throw new ArgumentException("Bad dice notation.", nameof(notation));
 

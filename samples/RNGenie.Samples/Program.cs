@@ -2,7 +2,7 @@
 {
     internal static class Program
     {
-        private static readonly Dictionary<string, (string Title, Action run)> Demos =
+        private static readonly Dictionary<string, (string Title, Action run)> _demos =
             new(StringComparer.OrdinalIgnoreCase)
             {
                 ["dice"] = ("Dice: roll notations (e.g. 3d6+2)", DiceDemo.Run),
@@ -14,7 +14,7 @@
 
         private static void Main(string[] args)
         {
-            if (args.Length > 0 && Demos.TryGetValue(args[0], out var quick))
+            if (args.Length > 0 && _demos.TryGetValue(args[0], out var quick))
             {
                 quick.run();
                 return;
@@ -23,7 +23,7 @@
             ConsoleMenu.Run(
                 header: "RNGenie Samples",
                 subtitle: "Choose a demo (arrow keys or number, Enter to run, Q to quit):",
-                items: Demos);
+                items: _demos);
         }
     }
 }

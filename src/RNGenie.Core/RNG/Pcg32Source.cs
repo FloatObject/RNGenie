@@ -24,7 +24,7 @@ public sealed class Pcg32Source : IRandomSource
 
     // Direct state/inc constructor (to avoid the usual warm-up).
     // Used for forking operations.
-    private Pcg32Source(ulong state, ulong inc, bool direct)
+    private Pcg32Source(ulong state, ulong inc, bool _)
     {
         _state = state;
         _inc = inc;
@@ -157,7 +157,7 @@ public sealed class Pcg32Source : IRandomSource
     /// </remarks>
     /// </summary>
     /// <returns>A new <see cref="Pcg32Source"/> that continues deterministically from this point.</returns>
-    public Pcg32Source Fork() => new Pcg32Source(_state, _inc, direct: true);
+    public Pcg32Source Fork() => new Pcg32Source(_state, _inc, true);
 
     /// <summary>
     /// Creates a new RNG <b>forked from the current state</b>, using the generator's
@@ -174,7 +174,7 @@ public sealed class Pcg32Source : IRandomSource
     /// </summary>
     /// <param name="streamId">Stream/sequence identifier for the forked RNG.</param>
     /// <returns>A new <see cref="Pcg32Source"/> that evolves independently from this point.</returns>
-    public Pcg32Source Fork(ulong streamId) => new Pcg32Source(_state, SeqToInc(streamId), direct: true);
+    public Pcg32Source Fork(ulong streamId) => new Pcg32Source(_state, SeqToInc(streamId), true);
 
     /// <summary>
     /// Creates a new RNG <b>derived from the original seed</b>, using the same initial seed as this generator
