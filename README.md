@@ -82,11 +82,11 @@ That means you can:
 ---
 
 ## 📦 Roadmap
-- Exploding dice (!) and advantage/disadvantage (adv/dis)
-- More distributions (Exponential, Poisson, Alias method sampler)
-- JSON-driven loot tables
-- Visualization sample (charts for distributions & loot outcomes)
-- Unity/MonoGame integration samples
+
+- **Dice Mechanics:** exploding dice (!), advantage/disadvantage (adv/dis).
+- **Distributions:** Exponential, Poisson, Alias method sampler.
+- **Integration:** JSON-driven loot tables, Unit/MonoGame samples.
+- **Visualization:** charts for distributions & loot outcomes.
 
 ---
 

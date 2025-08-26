@@ -99,7 +99,7 @@ RNGenie enforces consistent style via .editorconfig and CI.
 - Prefer pattern matching, switch expressions, tuple swaps.
 - Prefer null propagation (?.) and null coalescing (??).
 
-**Commit Messages**
+**Commit Messages**  
 Use clear, conventional commit messages, for example:
 - feat(dist): add Beta distribution
 - fix(dice): correct weighting bug
