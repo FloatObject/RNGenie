@@ -5,7 +5,7 @@ labels: enhancement
 ---
 
 ## Module Name
-(e.g. Playing Cards, Dice, etc.)
+(e.g. Cards, Dice, etc.)
 
 ## Description
 Explain what this module should provide and why it’s useful for RNGenie.
