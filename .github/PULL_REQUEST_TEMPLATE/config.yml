@@ -1,0 +1,9 @@
+# Allows multiple PR templates to be selectable
+templates:
+  - name: "✨ Feature / Enhancement"
+    path: code-update.md
+    description: For new RNG algorithms, distributions, dice rules, or other code changes.
+
+  - name: "📝 Documentation Update"
+    path: docs-update.md
+    description: For README, CONTRIBUTING, or XML doc changes only.

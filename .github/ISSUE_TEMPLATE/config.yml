@@ -1,0 +1,6 @@
+blank_issues_enabled: false   # No empty issues. Must use an issue template.
+
+contact_links:
+  - name: ❓ Questions / Ideas
+    url: https://github.com/FloatObject/RNGenie/discussions
+    about: Please use GitHub Discussions for general questions, ideas, and non-bug topics.
