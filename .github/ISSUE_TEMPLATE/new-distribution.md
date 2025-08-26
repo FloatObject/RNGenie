@@ -1,7 +1,7 @@
 ---
 name: "📊 New Distribution"
 about: Suggest or implement a new probability distribution for RNGenie
-labels: enhancement, good first issue
+labels: enhancement, good first issue, distribution
 ---
 
 ## Distribution Name

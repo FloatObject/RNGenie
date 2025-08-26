@@ -1,7 +1,7 @@
 ---
 name: "🎲 New Dice Mechanic"
 about: Add a new dice notation or rule to RNGenie (exploding dice, advantage/disadvantage, etc.)
-labels: enhancement, good first issue
+labels: enhancement, good first issue, dice
 ---
 
 ## Mechanic / Notation

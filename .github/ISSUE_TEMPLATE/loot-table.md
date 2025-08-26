@@ -1,7 +1,7 @@
 ---
 name: "📦 Loot Table Enhancement"
 about: Extend loot table features (JSON-driven policies, alias method sampler, etc.)
-labels: enhancement, help wanted
+labels: enhancement, help wanted, loot table
 ---
 
 ## Feature

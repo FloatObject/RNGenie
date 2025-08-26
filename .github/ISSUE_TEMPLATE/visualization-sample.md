@@ -1,7 +1,7 @@
 ---
 name: "📈 Visualization Sample"
 about: Add a console or chart-based visualization for distributions and loot outcomes
-labels: enhancement
+labels: enhancement, visualization
 ---
 
 ## Feature
