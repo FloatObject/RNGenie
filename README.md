@@ -66,9 +66,10 @@ RNGenie is built around simple interfaces:
 public interface IRandomSource {
     int NextInt(int minInclusive, int maxExclusive);
     double NextDouble(); // [0,1)
+    void NextBytes(Span<byte> buffer);
 }
 
-public interface IDistributable<T> {
+public interface IDistribution<T> {
     T Sample(IRandomSource rng);
 }
 ```
