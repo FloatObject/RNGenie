@@ -5,7 +5,8 @@ RNGenie is a lightweight C# library that makes randomness in your projects **eas
 Instead of rewriting weighted picks, dice rollers, or loot tables for every project, just let the genie grant your wishes. ✨
 
 [![NuGet](https://img.shields.io/nuget/v/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
-[![Build](https://github.com/FloatObject/RNGenie/actions/workflows/dotnet.yml/badge.svg)](https://github.com/FloatObject/RNGenie/actions)
+[![.NET CI](https://github.com/FloatObject/RNGenie/actions/workflows/dotnet.yml/badge.svg)](https://github.com/FloatObject/RNGenie/actions)
+[![style: editorconfig](https://img.shields.io/badge/style-editorconfig-blue)](./CONTRIBUTING.md)
 
 ---
 

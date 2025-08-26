@@ -1,7 +1,8 @@
 root = true
 
 [*.cs]
-dotnet_diagnostic.IDE0005.severity = suggestion
+# --- General style rules ---
+dotnet_diagnostic.IDE0005.severity = suggestion       # suggest removing unused usings
 dotnet_style_qualification_for_field = false:suggestion
 dotnet_style_qualification_for_property = false:suggestion
 dotnet_style_qualification_for_method = false:suggestion
@@ -11,86 +12,80 @@ csharp_style_var_when_type_is_apparent = true:suggestion
 indent_style = space
 indent_size = 4
 
-# usings
-dotnet_sort_system_directives_first = true
+# --- Usings ---
+dotnet_sort_system_directives_first = true            # put System.* first
 csharp_using_directive_placement = outside_namespace:warning
 dotnet_separate_import_directive_groups = true
 
-# var preferences
+# --- var preferences ---
 csharp_style_var_for_built_in_types = false:suggestion
 csharp_style_var_when_type_is_apparent = true:suggestion
 csharp_style_var_elsewhere = false:suggestion
 
-# expression-bodied
+# --- Expression-bodied members ---
 csharp_style_expression_bodied_methods = when_on_single_line:suggestion
 csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 
-# pattern matching / modern style nits
+# --- Modern C# preferences ---
 csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
 csharp_style_pattern_local_over_anonymous_function = true:suggestion
 csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_prefer_tuple_swap = true:suggestion
 
-# nullability / coalesce
+# --- Null handling ---
 csharp_style_prefer_null_coalescing_expression = true:suggestion
 csharp_style_prefer_null_propagation = true:suggestion
 
-# accessibility modifiers
+# --- Accessibility modifiers ---
 dotnet_style_require_accessibility_modifiers = for_non_interface_members:warning
 
-# using directives cleanup
-dotnet_diagnostic.IDE0005.severity = warning   # remove unnecessary using
+# --- Cleanup / dead code ---
+dotnet_diagnostic.IDE0005.severity = warning   # unused usings
 dotnet_diagnostic.IDE0065.severity = warning   # using placement
+dotnet_diagnostic.IDE0051.severity = warning   # unused private members
+dotnet_diagnostic.IDE0060.severity = warning   # unused parameters
 
-# unused members / dead code
-dotnet_diagnostic.IDE0051.severity = warning   # remove unused private members
-dotnet_diagnostic.IDE0060.severity = warning   # unused parameter
-
-# formatting & whitespace
-dotnet_diagnostic.IDE0055.severity = warning   # formatting
+# --- Formatting & whitespace ---
+dotnet_diagnostic.IDE0055.severity = warning   # enforce consistent formatting
 csharp_new_line_before_open_brace = all
 csharp_new_line_between_query_expression_clauses = true
 
 # --- Naming conventions ---
-# private fields: _camelCase
+# Private fields: _camelCase (leading underscore + lowercase first letter)
 dotnet_naming_rule.private_fields_should_be_camel_with_underscore.severity = warning
 dotnet_naming_rule.private_fields_should_be_camel_with_underscore.symbols  = private_fields
 dotnet_naming_rule.private_fields_should_be_camel_with_underscore.style    = camel_with_underscore
 
 dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_fields.required_modifiers =
 
 dotnet_naming_style.camel_with_underscore.capitalization = camel_case
 dotnet_naming_style.camel_with_underscore.required_prefix = _
 
-# interfaces: I PascalCase
+# Interfaces: PascalCase with 'I' prefix (e.g. IRandomSource)
 dotnet_naming_rule.interfaces_should_start_with_I.severity = warning
 dotnet_naming_rule.interfaces_should_start_with_I.symbols  = interfaces
 dotnet_naming_rule.interfaces_should_start_with_I.style    = interface_prefix_I
 
 dotnet_naming_symbols.interfaces.applicable_kinds = interface
-dotnet_naming_symbols.interfaces.applicable_accessibilities = *
-dotnet_naming_symbols.interfaces.required_modifiers =
 
 dotnet_naming_style.interface_prefix_I.capitalization = pascal_case
 dotnet_naming_style.interface_prefix_I.required_prefix = I
 
-# constants: PascalCase
+# Constants: PascalCase (e.g. MaxValue)
 dotnet_naming_rule.constants_should_be_pascal.severity = suggestion
 dotnet_naming_rule.constants_should_be_pascal.symbols  = constants
 dotnet_naming_rule.constants_should_be_pascal.style    = pascal
 
 dotnet_naming_symbols.constants.applicable_kinds = field
 dotnet_naming_symbols.constants.required_modifiers = const
-dotnet_naming_symbols.constants.applicable_accessibilities = *
 
 dotnet_naming_style.pascal.capitalization = pascal_case
 
-# test projects: relax naming rules
+# --- Test projects: relax naming rules ---
 [tests/RNGenie.Tests/**/*.cs]
 dotnet_diagnostic.IDE1006.severity = none
 
-# --- Public API docs (encourage XML on public) ---
-# If you generate XML docs in csproj, this makes missing docs visible.
-dotnet_diagnostic.CS1591.severity = warning   # missing XML on public members
+# --- Public API docs ---
+# Warn if public members are missing XML doc comments
+dotnet_diagnostic.CS1591.severity = warning
