@@ -1,6 +1,8 @@
 ﻿using System.Security.Cryptography;
 
-namespace RNGenie.Core.RNG
+using RNGenie.Core.Abstractions;
+
+namespace RNGenie.Core.Sources
 {
     /// <summary>
     /// RNG adapter that wraps <see cref="RandomNumberGenerator"/>

@@ -1,5 +1,5 @@
 ﻿using RNGenie.Core.Dice;
-using RNGenie.Core.RNG;
+using RNGenie.Core.Sources;
 
 namespace RNGenie.Tests
 {

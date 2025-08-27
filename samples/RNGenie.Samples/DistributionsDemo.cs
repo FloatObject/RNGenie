@@ -1,5 +1,5 @@
-﻿using RNGenie.Core.Dist;
-using RNGenie.Core.RNG;
+﻿using RNGenie.Core.Distributions;
+using RNGenie.Core.Sources;
 
 namespace RNGenie.Samples
 {

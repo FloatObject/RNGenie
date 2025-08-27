@@ -1,5 +1,5 @@
 ﻿using RNGenie.Core.Picks;
-using RNGenie.Core.RNG;
+using RNGenie.Core.Sources;
 
 namespace RNGenie.Tests
 {
