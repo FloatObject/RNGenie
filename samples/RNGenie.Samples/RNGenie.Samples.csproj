@@ -7,8 +7,8 @@
 	</PropertyGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="..\..\RNGenie.Distributions\RNGenie.Distributions.csproj" />
 		<ProjectReference Include="..\..\src\RNGenie.Core\RNGenie.Core.csproj" />
+		<ProjectReference Include="..\..\src\RNGenie.Distributions\RNGenie.Distributions.csproj" />
 	</ItemGroup>
 
 </Project>
