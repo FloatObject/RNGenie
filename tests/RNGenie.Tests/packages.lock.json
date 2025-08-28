@@ -109,6 +109,12 @@
       },
       "rngenie.core": {
         "type": "Project"
+      },
+      "rngenie.distributions": {
+        "type": "Project",
+        "dependencies": {
+          "RNGenie.Core": "[0.1.0, )"
+        }
       }
     }
   }

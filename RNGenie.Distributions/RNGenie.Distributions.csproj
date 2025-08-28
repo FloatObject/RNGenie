@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
+	  <PackageId>RNGenie.Distributions</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\src\RNGenie.Core\RNGenie.Core.csproj" />
+  </ItemGroup>
+
+</Project>

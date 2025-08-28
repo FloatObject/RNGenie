@@ -1,12 +1,13 @@
-﻿using RNGenie.Core.Distributions;
+﻿using RNGenie.Core.Abstractions;
 using RNGenie.Core.Sources;
+using RNGenie.Distributions.Continuous;
 
 namespace RNGenie.Tests
 {
     /// <summary>
-    /// Test suite for normal distribution.
+    /// Test suite for Gaussian distribution.
     /// </summary>
-    public class Dist_Normal_Tests
+    public class Dist_Gaussian_Tests
     {
         /// <summary>
         /// Tests exception with invalid standard deviations.
@@ -14,8 +15,19 @@ namespace RNGenie.Tests
         [Fact]
         public void Constructor_Guards_Std()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new NormalBoxMuller(0, 0));
-            Assert.Throws<ArgumentOutOfRangeException>(() => new NormalBoxMuller(0, -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Gaussian(0, 0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new Gaussian(0, -1));
+        }
+
+        /// <summary>
+        /// Tests exception with null IRandomSource object.
+        /// </summary>
+
+        [Fact]
+        public void Sample_Throws_On_Null_Rng()
+        {
+            var g = new Gaussian();
+            Assert.Throws<ArgumentNullException>(() => g.Sample(null!));
         }
 
         /// <summary>
@@ -25,7 +37,7 @@ namespace RNGenie.Tests
         public void Mean_And_Std_Are_Reasonable()
         {
             var rng = new Pcg32Source(7);
-            var nrm = new NormalBoxMuller(mean: 3, std: 2);
+            var nrm = new Gaussian(mean: 3, stdDev: 2);
 
             const int N = 200_000;
             double sum = 0;
@@ -64,19 +76,48 @@ namespace RNGenie.Tests
         }
 
         /// <summary>
-        /// Tests NormalBoxMuller same-seed reproducibility.
+        /// Tests Gaussian same-seed reproducibility.
         /// </summary>
         [Fact]
-        public void NormalBoxMuller_ReproducibleWithSameSeed()
+        public void Gaussian_ReproducibleWithSameSeed()
         {
             var a = new Pcg32Source(123);
             var b = new Pcg32Source(123);
-            var n = new NormalBoxMuller(0, 1);
+            var n = new Gaussian(0, 1);
 
             var seqA = Enumerable.Range(0, 10).Select(_ => n.Sample(a)).ToArray();
             var seqB = Enumerable.Range(0, 10).Select(_ => n.Sample(b)).ToArray();
 
             Assert.Equal(seqA, seqB);
+        }
+
+        /// <summary>
+        /// Simple IRandomSource implementation that allows for testing with bad RNG values.
+        /// Used for the next test to ensure we resample until we get a value higher than 0.
+        /// </summary>
+        private sealed class SequenceDoubleRng : IRandomSource
+        {
+            private readonly double[] _vals;
+            private int _i;
+
+            public SequenceDoubleRng(params double[] v) => _vals = v;
+            public double NextDouble() => _vals[_i++ % _vals.Length];
+            public uint NextUInt() => 0;
+            public int NextInt(int minInclusive, int maxExclusive) => minInclusive;
+            public void NextBytes(Span<byte> buffer) => buffer.Clear();
+            public ulong StateHash => 0;
+        }
+
+        /// <summary>
+        /// Tests Gaussian resampling when the U1 value is 0.
+        /// </summary>
+        [Fact]
+        public void Gaussian_Resamples_When_U1_Is_Zero()
+        {
+            var g = new Gaussian(0, 1);
+            var rng = new SequenceDoubleRng(0.0, 0.42, 0.77, 0.33); // u1 == 0 forces resample.
+            var x = g.Sample(rng);
+            Assert.False(double.IsNaN(x) || double.IsInfinity(x));
         }
     }
 }

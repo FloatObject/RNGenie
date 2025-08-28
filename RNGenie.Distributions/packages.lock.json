@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "dependencies": {
+    "net6.0": {
+      "rngenie.core": {
+        "type": "Project"
+      }
+    },
+    "net8.0": {
+      "rngenie.core": {
+        "type": "Project"
+      }
+    }
+  }
+}

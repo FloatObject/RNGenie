@@ -1,5 +1,4 @@
 ﻿using RNGenie.Core.Abstractions;
-using RNGenie.Core.Sources;
 
 namespace RNGenie.Core.Picks;
 
@@ -11,8 +10,8 @@ namespace RNGenie.Core.Picks;
 /// Weights do not need to be normalized; the picker uses the running total internally.
 /// </para>
 /// <para>
-/// Determinism: results are reproducible if you supply a deterministic RNG (e.g. <see cref="Pcg32Source"/>).
-/// With <see cref="SystemRandomSource"/> or <see cref="CryptoRandomSource"/> the sequence is not reproducible across runs.
+/// Determinism: results are reproducible if you supply a deterministic RNG (e.g. <see cref="Sources.Pcg32Source"/>).
+/// With <see cref="Sources.SystemRandomSource"/> or <see cref="Sources.CryptoRandomSource"/> the sequence is not reproducible across runs.
 /// </para>
 /// </summary>
 /// <typeparam name="T">The item type being selected.</typeparam>

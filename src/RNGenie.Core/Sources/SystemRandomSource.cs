@@ -3,7 +3,7 @@
 namespace RNGenie.Core.Sources
 {
     /// <summary>
-    /// RNG adapter that wraps the built-in <see cref="System.Random"/>
+    /// RNG adapter that wraps the built-in <see cref="Random"/>
     /// and implements <see cref="IRandomSource"/>.
     /// <para>
     /// Useful for casual scenarios where determinism and reproducibility are not required.
@@ -29,7 +29,7 @@ namespace RNGenie.Core.Sources
         /// </summary>
         /// <param name="seed">
         /// Optional seed for determinism.
-        /// Note that sequences produced by <see cref="System.Random"/> are not stable across runtime versions or platforms.
+        /// Note that sequences produced by <see cref="Random"/> are not stable across runtime versions or platforms.
         /// </param>
         public SystemRandomSource(int? seed = null)
             => _r = seed is null ? Random.Shared : new Random(seed.Value);
@@ -52,7 +52,7 @@ namespace RNGenie.Core.Sources
         /// <summary>
         /// A hash-like view of the current internal state, useful for debugging or sanity checks.
         /// <value>
-        /// Always <c>0</c>. <see cref="System.Random"/> is not deterministic across runtimes,
+        /// Always <c>0</c>. <see cref="Random"/> is not deterministic across runtimes,
         /// so a stable state hash cannot be provided.
         /// </value>
         /// </summary>

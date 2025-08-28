@@ -17,6 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\..\RNGenie.Distributions\RNGenie.Distributions.csproj" />
         <ProjectReference Include="..\..\src\RNGenie.Core\RNGenie.Core.csproj" />
     </ItemGroup>
 

@@ -1,5 +1,5 @@
-﻿using RNGenie.Core.Distributions;
-using RNGenie.Core.Sources;
+﻿using RNGenie.Core.Sources;
+using RNGenie.Distributions.Continuous;
 
 namespace RNGenie.Samples
 {
@@ -15,9 +15,9 @@ namespace RNGenie.Samples
         {
             var rng = new Pcg32Source(42);
 
-            var u = new Uniform01();
+            var u = new Uniform();
             var t = new Triangular(0, 5, 10);
-            var n = new NormalBoxMuller(0, 1);
+            var n = new Gaussian(0, 1);
 
             Console.WriteLine("Uniform01 samples:");
             for (int i = 0; i < 5; i++) Console.WriteLine($"  {u.Sample(rng):F6}");

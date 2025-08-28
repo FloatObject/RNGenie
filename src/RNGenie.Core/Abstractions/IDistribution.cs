@@ -2,12 +2,12 @@
 {
     /// <summary>
     /// Abstraction for a probability distribution that can sample values using an <see cref="IRandomSource"/>.
-    /// <remarks>
-    /// Core provides minimal distributions (e.g. <see cref="Distributions.Uniform01"/>, <c>Bernoulli</c>).
-    /// Additional distributions (e.g. <c>RNGenie.Distributions.Gaussian</c>, <c>Poisson</c>)
-    /// are available in the optional <c>RNGenie.Distributions</c> package.
-    /// </remarks>
     /// </summary>
+    /// <remarks>
+    /// This interface is defined in Core. Concrete implementations (e.g. Uniform, Gaussian, Poisson)
+    /// are provided in the optional <c>RNGenie.Distributions</c> package. Determinism is
+    /// guaranteed when the supplied <see cref="IRandomSource"/> is deterministic.
+    /// </remarks>
     /// <typeparam name="T">The type of value produced by the distribution.</typeparam>
     public interface IDistribution<T>
     {

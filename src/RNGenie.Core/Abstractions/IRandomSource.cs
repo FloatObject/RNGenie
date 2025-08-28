@@ -2,12 +2,12 @@
 {
     /// <summary>
     /// Abstraction for a random number generator used by RNGenie components.
+    /// </summary>
     /// <remarks>
     /// RNGenie ships implementations in <c>RNGenie.Core.Sources</c>
     /// (e.g. <see cref="Sources.Pcg32Source"/>, <see cref="Sources.SystemRandomSource"/>, <see cref="Sources.CryptoRandomSource"/>).
     /// Consumers may also implement this interface to integrate custom RNGs with RNGenie.
     /// </remarks>
-    /// </summary>
     public interface IRandomSource
     {
         /// <summary>
