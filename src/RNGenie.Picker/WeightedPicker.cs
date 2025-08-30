@@ -1,6 +1,7 @@
 ﻿using RNGenie.Core.Abstractions;
+using RNGenie.Core.Sources;
 
-namespace RNGenie.Core.Picks;
+namespace RNGenie.Picker;
 
 /// <summary>
 /// Simple weighted picker.
@@ -10,8 +11,8 @@ namespace RNGenie.Core.Picks;
 /// Weights do not need to be normalized; the picker uses the running total internally.
 /// </para>
 /// <para>
-/// Determinism: results are reproducible if you supply a deterministic RNG (e.g. <see cref="Sources.Pcg32Source"/>).
-/// With <see cref="Sources.SystemRandomSource"/> or <see cref="Sources.CryptoRandomSource"/> the sequence is not reproducible across runs.
+/// Determinism: results are reproducible if you supply a deterministic RNG (e.g. <see cref="Pcg32Source"/>).
+/// With <see cref="SystemRandomSource"/> or <see cref="CryptoRandomSource"/> the sequence is not reproducible across runs.
 /// </para>
 /// </summary>
 /// <typeparam name="T">The item type being selected.</typeparam>
@@ -19,6 +20,15 @@ public sealed class WeightedPicker<T>
 {
     private readonly List<(T item, double weight)> _items = new();
     private double _total;
+
+    /// <summary>
+    /// The total number of items.
+    /// </summary>
+    public int Count => _items.Count;
+    /// <summary>
+    /// The total weight of all items.
+    /// </summary>
+    public double TotalWeight => _total;
 
     /// <summary>
     /// Adds an item with the specified positive <paramref name="weight"/>.
@@ -31,12 +41,21 @@ public sealed class WeightedPicker<T>
     /// <returns>The picker instance (for fluent chaining).</returns>
     public WeightedPicker<T> Add(T item, double weight)
     {
-        if (weight <= 0)
-            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be greater than 0.");
+        if (!double.IsFinite(weight) || weight <= 0)
+            throw new ArgumentOutOfRangeException(nameof(weight), "Weight must be a finite number > 0.");
 
         _items.Add((item, weight));
         _total += weight;
         return this;
+    }
+
+    /// <summary>
+    /// Removes all items.
+    /// </summary>
+    public void Clear()
+    {
+        _items.Clear();
+        _total = 0;
     }
 
     /// <summary>
@@ -57,7 +76,7 @@ public sealed class WeightedPicker<T>
             throw new InvalidOperationException("No items added.");
 
         double r = rng.NextDouble() * _total;
-        double acc = 0;
+        double acc = 0.0;
 
         foreach (var (item, w) in _items)
         {
@@ -65,6 +84,6 @@ public sealed class WeightedPicker<T>
             if (r < acc) return item;
         }
 
-        return _items[^1].item; // edge case
+        return _items[^1].item; // precision edge
     }
 }

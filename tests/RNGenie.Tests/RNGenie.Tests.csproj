@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\src\RNGenie.Core\RNGenie.Core.csproj" />
     <ProjectReference Include="..\..\src\RNGenie.Dice\RNGenie.Dice.csproj" />
     <ProjectReference Include="..\..\src\RNGenie.Distributions\RNGenie.Distributions.csproj" />
+    <ProjectReference Include="..\..\src\RNGenie.Picker\RNGenie.Picker.csproj" />
   </ItemGroup>
 
 </Project>

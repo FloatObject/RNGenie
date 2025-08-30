@@ -141,6 +141,12 @@
         "dependencies": {
           "RNGenie.Core": "[0.1.0, )"
         }
+      },
+      "rngenie.picker": {
+        "type": "Project",
+        "dependencies": {
+          "RNGenie.Core": "[0.1.0, )"
+        }
       }
     }
   }
