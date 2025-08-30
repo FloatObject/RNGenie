@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
-        <PackageId>RNGenie.Json</PackageId>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
+    <PackageId>RNGenie.Json</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Description>JSON utilities for RNGenie: serialize RNG state and samples for storage, analysis, and visualization.</Description>
+    <PackageTags>$(PackageTags);json;serialization;visualization</PackageTags>
+  </PropertyGroup>
 	
-    <ItemGroup>
-        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-    </ItemGroup>
-	
-    <ItemGroup>
-        <ProjectReference Include="..\RNGenie.Core\RNGenie.Core.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RNGenie.Core\RNGenie.Core.csproj" />
+  </ItemGroup>
 
 </Project>

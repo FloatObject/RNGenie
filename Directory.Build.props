@@ -2,9 +2,6 @@
 	
 	<PropertyGroup>
 		
-		<!-- Version -->
-		<Version>0.1.0</Version>
-		
 		<!-- Symbols/debug -->
 		<IncludeSymbols>true</IncludeSymbols>
 		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -13,12 +10,11 @@
 		<!-- Metadata -->
 		<Authors>FloatObject</Authors>
 		<Company></Company>
-		<Description>Lightweight, extensible RNG helpers for C# (dice, loot, distributions, Monte Carlo)</Description>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/FloatObject/RNGenie</RepositoryUrl>
 		<PackageProjectUrl>https://github.com/FloatObject/RNGenie</PackageProjectUrl>
-		<PackageTags>rng random probability dice games simulations</PackageTags>
+		<PackageTags>rng;random;probability;dice;games;simulations</PackageTags>
 		
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
@@ -35,8 +31,32 @@
 		<EmbedUntrackedSources>true</EmbedUntrackedSources>
 		<Deterministic>true</Deterministic>
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		
 	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(IsPackable)'=='true'">
+		<PackageIcon>icon.png</PackageIcon>
+	</PropertyGroup>	
+	
+	<ItemGroup Condition="'$(IsPackable)'=='true'">
+		<!-- Use project-local icon if present -->
+		<None Include="icon.png"
+			  Pack="true"
+			  PackagePath=""
+			  Condition="Exists('icon.png')" />
+			  
+		<!-- Otherwise, fall back to the repo/global icon, but name it icon.png in the package -->
+		<None Include="$(MSBuildThisFileDirectory)icon.png"
+			  Pack="true"
+			  PackagePath=""
+			  Link="icon.png"
+			  Condition="!Exists('icon.png')" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
+	</ItemGroup>
 	
 	<ItemGroup Condition="'$(IsPackable)' == 'true'">
 		<None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />

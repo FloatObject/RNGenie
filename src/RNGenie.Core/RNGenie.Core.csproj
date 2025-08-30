@@ -1,12 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   
-	<PropertyGroup>
-		<TargetFrameworks>net8.0;net6.0</TargetFrameworks>
-		<PackageId>RNGenie.Core</PackageId>
-	</PropertyGroup>
-	
-	<ItemGroup>
-		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
-	</ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
+    <PackageId>RNGenie.Core</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Description>
+      Core abstractions and RNG sources for RNGenie. Provides IRandomSource and IDistribution&lt;T&gt;
+      plus fast, seedable generators (e.g. PCG). A small, zero-dependency foundation for RNGenie.Distributions,
+      Dice, and Picks.
+    </Description>
+  </PropertyGroup>
 
 </Project>

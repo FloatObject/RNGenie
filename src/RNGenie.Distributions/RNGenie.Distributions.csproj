@@ -1,8 +1,14 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
-	  <PackageId>RNGenie.Distributions</PackageId>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
+    <PackageId>RNGenie.Distributions</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Description>
+      Probability distributions for RNGenie (continuous and discrete) built on IDistribution&lt;T&gt;.
+      Deterministic with any IRandomSource. Currently includes Uniform, Triangular, Gaussian. Designed to grow.
+    </Description>
+    <PackageTags>$(PackageTags);distributions;gaussian;poisson;triangular</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

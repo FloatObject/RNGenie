@@ -89,3 +89,7 @@ dotnet_diagnostic.IDE1006.severity = none
 # --- Public API docs ---
 # Warn if public members are missing XML doc comments
 dotnet_diagnostic.CS1591.severity = warning
+
+[*.{csproj,props,targets}]
+indent_style = space
+indent_size = 2

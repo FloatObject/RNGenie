@@ -1,14 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>exe</OutputType>
-		<TargetFramework>net8.0</TargetFramework>
-		<IsPackable>false</IsPackable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <OutputType>exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsPublishable>false</IsPublishable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
 	
-	<ItemGroup>
-		<ProjectReference Include="..\..\src\RNGenie.Core\RNGenie.Core.csproj" />
-		<ProjectReference Include="..\..\src\RNGenie.Distributions\RNGenie.Distributions.csproj" />
-	</ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\RNGenie.Core\RNGenie.Core.csproj" />
+    <ProjectReference Include="..\..\src\RNGenie.Distributions\RNGenie.Distributions.csproj" />
+  </ItemGroup>
 
 </Project>
