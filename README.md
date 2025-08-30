@@ -11,26 +11,35 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 
 ---
 
-## ✨ Features
-- **Weighted Picks** (`WeightedPicker<T>`) for loot tables and drop chances
-- **Dice Roller** with standard RPG notation (`3d6+2`, exploding dice, adv/dis coming soon)
-- **Probability Distributions** (uniform, triangular, normal approximation)
-- **Loot Tables** with conditional chaining & JSON definitions
-- **Simulation Helpers** (Monte Carlo runner)
-- **Pluggable RNG Sources** (use System.Random, PCG32, or your own)
-- **Branching RNG Timelines (Pcg32)** branch the timeline or spin up independent streams (see [Forking & Streams](docs/forking-streams.md))
+## ✨ Features (per package)
+- **RNGenie.Core** → pluggable RNG sources (`Pcg32`, `SystemRandomSource`, `CryptoRandomSource`) + abstractions (`IRandomSource`, reproducibility, branching timelines).
+- **RNGenie.Dice** → RPG-style dice roller with notation (`3d6+2`), deterministic when seeded.
+- **RNGenie.Picker** → uniform and weighted selection for loot tables, drop rates, and simulations.
+- **RNGenie.Distributions** → probability distributions (uniform, triangular, normal approximation).
+- **(Future) RNGenie.Json** → save/load RNG state, expore samples for visualization.
 
 ---
 
 ## 🚀 Quick Start
 
-Install from NuGet:
+Install the core package:
 ```sh
 dotnet add package RNGenie.Core
 ```
+
+Install extras as needed:
+```sh
+dotnet add package RNGenie.Dice
+dotnet add package RNGenie.Picker
+dotnet add package RNGenie.Distributions
+```
+
 Basic usage:
 ```cs
-using RNGenie;
+using RNGenie.Core.Sources;
+using RNGenie.Dice;
+using RNGenie.Picker;
+using RNGenie.Distributions;
 
 // Seedable RNG for reproducibility
 var rng = new Pcg32Source(seed: 123);
@@ -44,14 +53,18 @@ var rarity = new WeightedPicker<string>()
 
 Console.WriteLine($"You got a {rarity} item!");
 
-// Dice roller
-var (total, rolls, mod) = Dice.Roll("3d6+2", rng);
-Console.WriteLine($"Dice result: {total} (rolls: {string.Join(",", rolls)} {mod:+#;-#;0})");
+// Dice roller (explicit + fluent)
+var (total, rolls, mod) = DiceRoller.Roll("3d6+2", rng);
+Console.WriteLine($"Dice result: {total}");
+
+var crit = rng.Roll("1d20");
+Console.WriteLine($"Crit check: {crit.total}");
 
 // Distribution sampling
-var dist = new Triangular(5, 12, 20);
-Console.WriteLine($"Damage roll: {dist.Sample(rng):F2}");
+var normal = new Gaussian(0, 1);
+Console.WriteLine($"Normal sample: {normal.Sample(rng):F2}");
 ```
+
 Output:
 ```text
 You got a Rare item!
