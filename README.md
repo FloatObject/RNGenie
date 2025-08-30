@@ -16,7 +16,7 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 - **RNGenie.Dice** → RPG-style dice roller with notation (`3d6+2`), deterministic when seeded.
 - **RNGenie.Picker** → uniform and weighted selection for loot tables, drop rates, and simulations.
 - **RNGenie.Distributions** → probability distributions (uniform, triangular, normal approximation).
-- **(Future) RNGenie.Json** → save/load RNG state, expore samples for visualization.
+- **(Future) RNGenie.Json** → save/load RNG state, explore samples for visualization.
 
 ---
 
@@ -68,8 +68,9 @@ Console.WriteLine($"Normal sample: {normal.Sample(rng):F2}");
 Output:
 ```text
 You got a Rare item!
-Dice result: 15 (rolls: 4,5,4 +2)
-Damage roll: 11.73
+Dice result: 14
+Crit check: 17
+Normal sample: -0.13
 ```
 ---
 
