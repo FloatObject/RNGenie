@@ -1,8 +1,9 @@
 ﻿using System.Text.RegularExpressions;
 
 using RNGenie.Core.Abstractions;
+using RNGenie.Core.Sources;
 
-namespace RNGenie.Core.Dice
+namespace RNGenie.Dice
 {
     /// <summary>
     /// Utility for parsing and rolling common RPG-style dice notations such as <c>3d6+2</c>.
@@ -17,9 +18,9 @@ namespace RNGenie.Core.Dice
     /// <para>
     /// Examples: <c>1d20</c>, <c>3d6+2</c>, <c>2d10-1</c>.
     /// </para>
-    /// Determinism: reproducible if you supply a deterministic RNG (e.g. <see cref="Sources.Pcg32Source"/>).
+    /// Determinism: reproducible if you supply a deterministic RNG (e.g. <see cref="Pcg32Source"/>).
     /// </summary>
-    public static class Dice
+    public static class DiceRoller
     {
         private static readonly Regex _rx = new(@"^\s*(\d+)d(\d+)([+-]\d+)?\s*$",
                                                RegexOptions.Compiled | RegexOptions.CultureInvariant);

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net6.0</TargetFrameworks>
+    <PackageId>RNGenie.Dice</PackageId>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <Description>
+      Utilities for rolling RPG-style dice expressions (e.g. 3d6+2, 1d20).
+      Built on RNGenie.Core for reproducible results with deterministic RNG sources.
+    </Description>
+    <PackageTags>$(PackageTags);die;dice;roller;d20;dnd;rpg;notation</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RNGenie.Core\RNGenie.Core.csproj" />
+  </ItemGroup>
+
+</Project>

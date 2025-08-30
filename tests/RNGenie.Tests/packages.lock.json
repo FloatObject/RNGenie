@@ -130,6 +130,12 @@
       "rngenie.core": {
         "type": "Project"
       },
+      "rngenie.dice": {
+        "type": "Project",
+        "dependencies": {
+          "RNGenie.Core": "[0.1.0, )"
+        }
+      },
       "rngenie.distributions": {
         "type": "Project",
         "dependencies": {
