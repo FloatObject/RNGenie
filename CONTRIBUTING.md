@@ -104,5 +104,5 @@ Use clear, conventional commit messages, for example:
 - feat(dist): add Beta distribution
 - fix(dice): correct weighting bug
 - chore(format): apply dotnet format cleanup
-
+- docs(readme): add links to per-package documentation
 ---

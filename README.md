@@ -2,7 +2,7 @@
 **Extensible Randomness Helpers for Games and Simulations**
 
 RNGenie is a lightweight C# library that makes randomness in your projects **easy, reproducible, and fun**.
-Instead of rewriting weighted picks, dice rollers, or loot tables for every project, just let the genie grant your wishes. ✨
+Instead of rewriting weighted picks, dice rollers, or loot tables for every project, just rub the lamp and roll with reproducibility. ✨
 
 [![NuGet](https://img.shields.io/nuget/v/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
 [![Downloads](https://img.shields.io/nuget/dt/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
@@ -12,22 +12,35 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 ---
 
 ## ✨ Features (per package)
-- **RNGenie.Core** → pluggable RNG sources (`Pcg32`, `SystemRandomSource`, `CryptoRandomSource`) + abstractions (`IRandomSource`, reproducibility, branching timelines).
+- **RNGenie.Core**:
+  - Pluggable RNG sources (`Pcg32Source`, `SystemRandomSource`, `CryptoRandomSource`).
+  - Abstractions (`IRandomSource`, `IDistribution<T>`, reproducibility, branching timelines).
 - **RNGenie.Dice** → RPG-style dice roller with notation (`3d6+2`), deterministic when seeded.
 - **RNGenie.Picker** → uniform and weighted selection for loot tables, drop rates, and simulations.
 - **RNGenie.Distributions** → probability distributions (uniform, triangular, normal approximation).
-- **(Future) RNGenie.Json** → save/load RNG state, explore samples for visualization.
+- **(Coming Soon) RNGenie.Cards** → deck creation, shuffling, drawing, deterministic when seeded.
+- **(Coming Soon) RNGenie.Json** → save/load RNG state, export samples for visualization.
+
+---
+
+## 📄 Documentation (per package)
+- **RNGenie.Core** → [Core Docs](./docs/core.md)
+- **RNGenie.Dice** → [Dice Docs](./docs/dice.md)
+- **RNGenie.Picker** → [Picker Docs](./docs/picker.md)
+- **RNGenie.Distributions** → [Dist Docs](./docs/distributions.md)
+- **(Coming Soon) RNGenie.Cards** → [Card Docs](./docs/cards.md)
+- **(Coming Soon) RNGenie.Json** → [Json Docs](./docs/json.md)
 
 ---
 
 ## 🚀 Quick Start
 
-Install the core package:
+Install the core package (required):
 ```sh
 dotnet add package RNGenie.Core
 ```
 
-Install extras as needed:
+Install extras as needed (optional):
 ```sh
 dotnet add package RNGenie.Dice
 dotnet add package RNGenie.Picker
