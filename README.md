@@ -125,7 +125,7 @@ Pull requests are welcome!
 Good first issues:
 - Add new dice notations
 - Add new probability distributions
-- Extend loot table policies
+- Extend loot table policies  
 See CONTRIBUTING.md for guidelines.
 
 ---
