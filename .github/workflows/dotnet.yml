@@ -147,8 +147,6 @@ jobs:
   
   publish:
     name: Publish to NuGet (requires approval)
-    env:
-      ENABLE_PUBLISH: ${{ vars.ENABLE_PUBLISH }}
     # only run for tag builds and only after 'pack' succeeded
     if: |
       (startsWith(github.ref, 'refs/tags/core-v') ||
