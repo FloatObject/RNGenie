@@ -9,10 +9,17 @@
       Built on RNGenie.Core for reproducible results with deterministic RNG sources.
     </Description>
     <PackageTags>$(PackageTags);die;dice;roller;d20;dnd;rpg;notation</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RNGenie.Core\RNGenie.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>

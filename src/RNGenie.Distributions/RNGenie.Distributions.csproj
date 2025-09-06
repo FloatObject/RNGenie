@@ -9,10 +9,17 @@
       Deterministic with any IRandomSource. Currently includes Uniform, Triangular, Gaussian. Designed to grow.
     </Description>
     <PackageTags>$(PackageTags);distributions;gaussian;poisson;triangular</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\RNGenie.Core\RNGenie.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
