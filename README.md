@@ -11,6 +11,11 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 
 ---
 
+> 🎉 **Milestone:** RNGenie packages have been downloaded over **100 times** on NuGet!
+> Thanks to everyone checking it out early! ✨
+
+---
+
 ## ✨ Features (per package)
 - **RNGenie.Core**:
   - Pluggable RNG sources (`Pcg32Source`, `SystemRandomSource`, `CryptoRandomSource`).
