@@ -127,6 +127,12 @@
           "xunit.extensibility.core": "[2.9.2]"
         }
       },
+      "rngenie.cards": {
+        "type": "Project",
+        "dependencies": {
+          "RNGenie.Core": "[0.1.0, )"
+        }
+      },
       "rngenie.core": {
         "type": "Project"
       },

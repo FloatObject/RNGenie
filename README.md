@@ -16,20 +16,20 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
   - Pluggable RNG sources (`Pcg32Source`, `SystemRandomSource`, `CryptoRandomSource`).
   - Abstractions (`IRandomSource`, `IDistribution<T>`, reproducibility, branching timelines).
 - **RNGenie.Dice** → RPG-style dice roller with notation (`3d6+2`), deterministic when seeded.
+- **RNGenie.Cards** → deck creation, shuffling, drawing, peeking, deterministic when seeded.
 - **RNGenie.Picker** → uniform and weighted selection for loot tables, drop rates, and simulations.
 - **RNGenie.Distributions** → probability distributions (uniform, triangular, normal approximation).
-- **(Coming Soon) RNGenie.Cards** → deck creation, shuffling, drawing, deterministic when seeded.
 - **(Coming Soon) RNGenie.Json** → save/load RNG state, export samples for visualization.
 
 ---
 
 ## 📄 Documentation (per package)
-- **RNGenie.Core** → [Core Docs](./docs/core.md)
-- **RNGenie.Dice** → [Dice Docs](./docs/dice.md)
-- **RNGenie.Picker** → [Picker Docs](./docs/picker.md)
-- **RNGenie.Distributions** → [Dist Docs](./docs/distributions.md)
-- **(Coming Soon) RNGenie.Cards** → [Card Docs](./docs/cards.md)
-- **(Coming Soon) RNGenie.Json** → [Json Docs](./docs/json.md)
+- **RNGenie.Core** → [Core Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/core.md)
+- **RNGenie.Dice** → [Dice Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/dice.md)
+- **RNGenie.Cards** → [Card Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/cards.md)
+- **RNGenie.Picker** → [Picker Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/picker.md)
+- **RNGenie.Distributions** → [Dist Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/distributions.md)
+- **(Coming Soon) RNGenie.Json** → [Json Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/json.md)
 
 ---
 
@@ -50,12 +50,17 @@ dotnet add package RNGenie.Distributions
 Basic usage:
 ```cs
 using RNGenie.Core.Sources;
+using RNGenie.Cards;
 using RNGenie.Dice;
 using RNGenie.Picker;
 using RNGenie.Distributions;
 
+// -- RNGenie.Core --
+
 // Seedable RNG for reproducibility
 var rng = new Pcg32Source(seed: 123);
+
+// -- RNGenie.Picker --
 
 // Weighted pick
 var rarity = new WeightedPicker<string>()
@@ -66,12 +71,28 @@ var rarity = new WeightedPicker<string>()
 
 Console.WriteLine($"You got a {rarity} item!");
 
+// -- RNGenie.Cards --
+
+// Deck creation
+var newDeck = new Deck(includeJokers: true);
+
+// Fisher-Yates shuffle, deterministic with seeded RNG source.
+newDeck.Shuffle(rng);
+
+Card newCard = newDeck.Draw();
+
+Console.WriteLine($"Card drawn: {newCard}");
+
+// -- RNGenie.Dice --
+
 // Dice roller (explicit + fluent)
 var (total, rolls, mod) = DiceRoller.Roll("3d6+2", rng);
 Console.WriteLine($"Dice result: {total}");
 
 var crit = rng.Roll("1d20");
 Console.WriteLine($"Crit check: {crit.total}");
+
+// -- RNGenie.Distributions --
 
 // Distribution sampling
 var normal = new Gaussian(0, 1);
@@ -81,6 +102,7 @@ Console.WriteLine($"Normal sample: {normal.Sample(rng):F2}");
 Output:
 ```text
 You got a Rare item!
+Card drawn: A♠
 Dice result: 14
 Crit check: 17
 Normal sample: -0.13

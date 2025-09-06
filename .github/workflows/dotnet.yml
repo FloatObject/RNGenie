@@ -7,6 +7,7 @@ on:
       - 'core-v*'
       - 'dist-v*'
       - 'dice-v*'
+      - 'card-v*'
       - 'pick-v*'
   pull_request:
     branches: [ master ]
@@ -79,6 +80,7 @@ jobs:
       startsWith(github.ref, 'refs/tags/core-v') || 
       startsWith(github.ref, 'refs/tags/dist-v') || 
       startsWith(github.ref, 'refs/tags/dice-v') || 
+      startsWith(github.ref, 'refs/tags/card-v') || 
       startsWith(github.ref, 'refs/tags/pick-v')
     runs-on: ubuntu-latest
     needs: build-test
@@ -109,6 +111,9 @@ jobs:
           elif [[ "$ref" == dice-v* ]]; then
             echo "project=src/RNGenie.Dice/RNGenie.Dice.csproj" >> $GITHUB_OUTPUT
             echo "prefix=dice-v" >> $GITHUB_OUTPUT
+          elif [[ "$ref" == card-v* ]]; then
+            echo "project=src/RNGenie.Cards/RNGenie.Cards.csproj" >> $GITHUB_OUTPUT
+            echo "prefix=card-v" >> $GITHUB_OUTPUT
           elif [[ "$ref" == pick-v* ]]; then
             echo "project=src/RNGenie.Picker/RNGenie.Picker.csproj" >> $GITHUB_OUTPUT
             echo "prefix=pick-v" >> $GITHUB_OUTPUT
@@ -152,6 +157,7 @@ jobs:
       (startsWith(github.ref, 'refs/tags/core-v') ||
        startsWith(github.ref, 'refs/tags/dist-v') ||
        startsWith(github.ref, 'refs/tags/dice-v') ||
+       startsWith(github.ref, 'refs/tags/card-v')
        startsWith(github.ref, 'refs/tags/pick-v')) &&
       vars.ENABLE_PUBLISH == 'true'
     runs-on: ubuntu-latest
