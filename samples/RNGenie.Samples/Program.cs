@@ -6,6 +6,7 @@
             new(StringComparer.OrdinalIgnoreCase)
             {
                 ["dice"] = ("Dice: roll notations (e.g. 3d6+2)", DiceDemo.Run),
+                ["cards"] = ("Cards: playing card functionalities", CardDemo.Run),
                 ["picker"] = ("Weighted Picker: loot rarity sampler", WeightedPickerDemo.Run),
                 ["dist"] = ("Distributions: Uniform, Triangular, Normal", DistributionsDemo.Run),
                 ["fork"] = ("Forking: Fork() vs NewStreamFromSeed()", ForkingDemo.Run),
