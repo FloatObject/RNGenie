@@ -11,7 +11,7 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 
 ---
 
-> 🎉 **Milestone:** RNGenie packages have been downloaded over **100 times** on NuGet!
+> 🎉 **Milestone:** RNGenie packages have been downloaded over **100 times** on NuGet!  
 > Thanks to everyone checking it out early! ✨
 
 ---
