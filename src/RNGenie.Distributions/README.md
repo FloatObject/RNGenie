@@ -1,155 +1,105 @@
-# 🎩 RNGenie 🔮
-**Extensible Randomness Helpers for Games and Simulations**
+# 🎩 RNGenie.Distributions 📈
 
-RNGenie is a lightweight C# library that makes randomness in your projects **easy, reproducible, and fun**.
-Instead of rewriting weighted picks, dice rollers, or loot tables for every project, just rub the lamp and roll with reproducibility. ✨
+**Lightweight Probability Distributions for Deterministic Sampling**
 
-[![NuGet](https://img.shields.io/nuget/v/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
-[![Downloads](https://img.shields.io/nuget/dt/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
+RNGenie.Distributions provides ready-to-use sampling primitives (e.g. Uniform, Triangular, Gaussian-approx)  
+that integrate with `IRandomSource` for reproducible simulations.
+
+[![NuGet](https://img.shields.io/nuget/v/RNGenie.Distributions.svg)](https://www.nuget.org/packages/RNGenie.Distributions/)
+[![Downloads](https://img.shields.io/nuget/dt/RNGenie.Distributions.svg)](https://www.nuget.org/packages/RNGenie.Distributions/)
 [![.NET CI](https://github.com/FloatObject/RNGenie/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/FloatObject/RNGenie/actions/workflows/dotnet.yml)
-[![style: editorconfig](https://img.shields.io/badge/style-editorconfig-blue)](./CONTRIBUTING.md)
+[![style: editorconfig](https://img.shields.io/badge/style-editorconfig-blue)](https://github.com/FloatObject/RNGenie/blob/master/CONTRIBUTING.md)
 
 ---
 
-## ✨ Features (per package)
-- **RNGenie.Core**:
-  - Pluggable RNG sources (`Pcg32Source`, `SystemRandomSource`, `CryptoRandomSource`).
-  - Abstractions (`IRandomSource`, `IDistribution<T>`, reproducibility, branching timelines).
-- **RNGenie.Dice** → RPG-style dice roller with notation (`3d6+2`), deterministic when seeded.
-- **RNGenie.Cards** → deck creation, shuffling, drawing, peeking, deterministic when seeded.
-- **RNGenie.Picker** → uniform and weighted selection for loot tables, drop rates, and simulations.
-- **RNGenie.Distributions** → probability distributions (uniform, triangular, normal approximation).
-- **(Coming Soon) RNGenie.Json** → save/load RNG state, export samples for visualization.
+## ✨ Features
+
+- Common distributions (e.g. **Uniform**, **Triangular**, **Gaussian approximation (using Box-Muller algorithm**).
+- All samplers implement `IDistribution<T>` -> **compose and test easily**.
+- **Deterministic** when sampled with a seeded `IRandomSource`.
 
 ---
 
-## 📄 Documentation (per package)
-- **RNGenie.Core** → [Core Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/core.md)
-- **RNGenie.Dice** → [Dice Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/dice.md)
-- **RNGenie.Cards** → [Card Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/cards.md)
-- **RNGenie.Picker** → [Picker Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/picker.md)
-- **RNGenie.Distributions** → [Dist Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/distributions.md)
-- **(Coming Soon) RNGenie.Json** → [Json Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/json.md)
+## 📄 Documentation
+
+See the [Distribution Docs](https://github.com/FloatObject/RNGenie/blob/master/docs/distributions.md) for usage and API details.
 
 ---
 
 ## 🚀 Quick Start
 
-Install the core package (required):
+Install Core + Distributions:
 ```sh
 dotnet add package RNGenie.Core
-```
-
-Install extras as needed (optional):
-```sh
-dotnet add package RNGenie.Dice
-dotnet add package RNGenie.Cards
-dotnet add package RNGenie.Picker
 dotnet add package RNGenie.Distributions
 ```
 
 Basic usage:
 ```cs
 using RNGenie.Core.Sources;
-using RNGenie.Cards;
-using RNGenie.Dice;
-using RNGenie.Picker;
-using RNGenie.Distributions;
-
-// -- RNGenie.Core --
+using RNGenie.Distributions.Continuous;
 
 // Seedable RNG for reproducibility
 var rng = new Pcg32Source(seed: 123);
 
-// -- RNGenie.Picker --
+// Sample from a Gaussian-like distribution
+var normal = new Gaussian(mean: 0.0, stdDev: 1.0);
+double x = normal.Sample(rng);
 
-// Weighted pick
-var rarity = new WeightedPicker<string>()
-    .Add("Common", 0.75)
-    .Add("Rare",   0.20)
-    .Add("Epic",   0.05)
-    .One(rng);
+// Sample from a triangular distribution
+var tri = Triangular(min: 0, mode: 10, max: 20);
+double y = tri.Sample(rng);
 
-Console.WriteLine($"You got a {rarity} item!");
-
-// -- RNGenie.Cards --
-
-// Deck creation
-var newDeck = new Deck(includeJokers: true);
-
-// Fisher-Yates shuffle, deterministic with seeded RNG source.
-newDeck.Shuffle(rng);
-
-Card newCard = newDeck.Draw();
-
-Console.WriteLine($"Card drawn: {newCard}");
-
-// -- RNGenie.Dice --
-
-// Dice roller (explicit + fluent)
-var (total, rolls, mod) = DiceRoller.Roll("3d6+2", rng);
-Console.WriteLine($"Dice result: {total}");
-
-var crit = rng.Roll("1d20");
-Console.WriteLine($"Crit check: {crit.total}");
-
-// -- RNGenie.Distributions --
-
-// Distribution sampling
-var normal = new Gaussian(0, 1);
-Console.WriteLine($"Normal sample: {normal.Sample(rng):F2}");
+Console.WriteLine($"Normal: {x:F3}, Triangular: {y:F3}");
 ```
 
 Output:
 ```text
-You got a Rare item!
-Card drawn: A♠
-Dice result: 14
-Crit check: 17
-Normal sample: -0.13
+Normal: -0.318, Triangular: 12.474
 ```
+
+Implement your own distribution:
+```
+using RNGenie.Core.Abstractions;
+
+public sealed class Bernoulli : IDistribution<bool>
+{
+	private readonly double _p;
+	
+	public Bernoulli(double p) => _p = Math.Clamp(p, 0.0, 1.0);
+	
+	public bool Sample(IRandomSource rng) => rng.NextDouble() < _p;
+}
+```
+
 ---
 
 ## 🧩 Extensibility
 
-RNGenie is built around simple interfaces:
-```cs
-public interface IRandomSource {
-    int NextInt(int minInclusive, int maxExclusive);
-    double NextDouble(); // [0,1)
-    void NextBytes(Span<byte> buffer);
-}
-
-public interface IDistribution<T> {
-    T Sample(IRandomSource rng);
-}
-```
-
-That means you can:
-- Plug in your own RNG algorithm (PCG, XorShift, etc.)
-- Contribute new probability distributions
-- Add new dice mechanics (exploding, keep-highest, etc.)
-- Extend loot tables with custom rules or policies
+- Build **compound models** by sampling multiple distributions.
+- Swap RNG sources (`Pcg32Source`, `SystemRandomSource`, `CryptoRandomSource`) without changing your model code.
+- Use the same seed to **replay experiments** exactly.
 
 ---
 
 ## 📦 Roadmap
 
-- **Dice Mechanics:** exploding dice (!), advantage/disadvantage (adv/dis).
-- **Distributions:** Exponential, Poisson, Alias method sampler.
-- **Integration:** JSON-driven loot tables, Unit/MonoGame samples.
-- **Visualization:** charts for distributions & loot outcomes.
+- Swappable **Ziggurat** algorithm for Gaussian distributions (currently uses Box-Muller).
+- **Exponential**, **Poisson**, **Gamma**, **Beta**, **Binomial** samplers.
+- **Alias method** for large discrete distributions.
 
 ---
 
 ## 👩‍💻 Contributing
 
 Pull requests are welcome!
+
 Good first issues:
-- Add new dice notations
-- Add new probability distributions
-- Extend loot table policies  
-See CONTRIBUTING.md for guidelines.
+- Add new distributions + unit tests
+- Numerical validation harness
+
+See CONTRIBUTING.md for guidance.
+Also, check [here](https://github.com/FloatObject/RNGenie/issues) for existing distribution issue writeups.
 
 ---
 

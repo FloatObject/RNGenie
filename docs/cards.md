@@ -15,6 +15,7 @@ dotnet add package RNGenie.Cards
 ## Usage
 
 ```cs
+using System.Linq;
 using RNGenie.Core.Sources;  // PCG32, SystemRandomSource, CryptoRandomSource
 using RNGenie.Cards;
 
@@ -44,6 +45,45 @@ deck.Reset();
 
 var deckWithJokers = new Deck(includeJokers: true);
 Console.WriteLine(deckWithJokers.Capacity); // 54
+
+// ----- Custom Deck Compositions -----
+
+// You can build a deck from any sequence of the built-in Card type.
+// The order you pass in becomes the original (unshuffled) order.
+// Reset() will restore to exactly this sequence.
+var custom = new Deck(new []
+{
+    new Card((Suite)0, (Rank)1),   // A♠
+    new Card((Suite)1, (Rank)13),  // K♥
+    Card.Joker(1)                  // Distinct Joker
+});
+
+// Short deck (strip 2-5)
+// 6..13 (inclusive) across all four suits
+var shortDeck = new Deck(
+    from s in Enumerable.Range(0, 4)
+    from r in Enumerable.Range(6, 8)   // 6..13
+    select new Card((Suite)s, (Rank)r)
+);
+
+// Pinochle-style (9-Ace, two copies of each)
+var pinochle = new Deck(
+    Enumerable.Repeat(0, 2).SelectMany(_ =>
+        from s in Enumerable.Range(0, 4)
+        from r in Enumerable.Range(9, 6)  // 9..14 (Ace)
+        select new Card((Suite)s, (Rank)r)
+    )
+);
+
+// "Stacked" deck for deterministic tests
+// Put specific cards on top for predictable draws.
+var stackedTop = new Deck(new []
+{
+    new Card((Suite)0, (Rank)1),  // A♠ (will be drawn first)
+    new Card((Suite)0, (Rank)13), // K♠ (second)
+    new Card((Suite)1, (Rank)1),  // A♥ (third)
+    // …followed by any sequence you like
+});
 
 // ----- Reproducible Shuffles -----
 

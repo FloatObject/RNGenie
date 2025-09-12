@@ -7,7 +7,7 @@ Instead of rewriting weighted picks, dice rollers, or loot tables for every proj
 [![NuGet](https://img.shields.io/nuget/v/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
 [![Downloads](https://img.shields.io/nuget/dt/RNGenie.Core.svg)](https://www.nuget.org/packages/RNGenie.Core/)
 [![.NET CI](https://github.com/FloatObject/RNGenie/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/FloatObject/RNGenie/actions/workflows/dotnet.yml)
-[![style: editorconfig](https://img.shields.io/badge/style-editorconfig-blue)](./CONTRIBUTING.md)
+[![style: editorconfig](https://img.shields.io/badge/style-editorconfig-blue)](https://github.com/FloatObject/RNGenie/blob/master/CONTRIBUTING.md)
 
 ---
 

@@ -5,6 +5,7 @@ namespace RNGenie.Cards
     /// <summary>
     /// A standard 52-card deck, optionally with two distinct Jokers.
     /// Deterministic shuffle via <see cref="IRandomSource"/> (Fisher-Yates).
+    /// Also supports custom compositions of the built-in <see cref="Card"/> type.
     /// </summary>
     public sealed class Deck
     {
@@ -34,34 +35,55 @@ namespace RNGenie.Cards
         }
 
         /// <summary>
-        /// Create a new Deck with optional jokers.
+        /// Create a new deck from a custom composition of <see cref="Card"/>.
         /// </summary>
-        /// <param name="includeJokers"></param>
-        /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public Deck(bool includeJokers = false)
+        /// <param name="initialCards">The exact sequence of cards that defines the deck.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="initialCards"/> is null.</exception>
+        /// <exception cref="ArgumentException">Thrown when no cards are provided.</exception>
+        public Deck(IEnumerable<Card> initialCards)
+        {
+            if (initialCards is null)
+                throw new ArgumentNullException(nameof(initialCards));
+
+            _original = initialCards.ToArray();
+
+            if (_original.Length == 0)
+                throw new ArgumentException("Deck must contain at least one card.", nameof(initialCards));
+
+            _cards = new Card[_original.Length];
+            Reset();
+        }
+
+        /// <summary>
+        /// Create a standard 52-card deck, optionally with two distinct Jokers.
+        /// </summary>
+        /// <param name="includeJokers">If true, include two distinct Jokers (total 54 cards).</param>
+        public Deck(bool includeJokers = false) : this(BuildStandardComposition(includeJokers))
+        {
+        }
+
+        private static List<Card> BuildStandardComposition(bool includeJokers)
         {
             int size = includeJokers ? 54 : 52;
-            _original = new Card[size];
-            _cards = new Card[size];
-
-            int k = 0;
+            var list = new List<Card>(size);
 
             // Standard 52
             for (int s = 0; s < 4; s++)
             {
                 for (int r = 1; r <= 13; r++)
                 {
-                    _original[k++] = new Card((Suite)s, (Rank)r);
+                    list.Add(new Card((Suite)s, (Rank)r));
                 }
             }
-            // Jokers at the end (distinct).
+
+            // Jokers at the end (distinct)
             if (includeJokers)
             {
-                _original[k++] = Card.Joker(1);
-                _original[k++] = Card.Joker(2);
+                list.Add(Card.Joker(1));
+                list.Add(Card.Joker(2));
             }
 
-            Reset();
+            return list;
         }
 
         /// <summary>

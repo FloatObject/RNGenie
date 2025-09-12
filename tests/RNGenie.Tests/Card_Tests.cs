@@ -240,5 +240,120 @@ namespace RNGenie.Tests
             Assert.Throws<ArgumentNullException>(() => d.Shuffle(null!));
             Assert.Throws<ArgumentNullException>(() => d.ShuffleRemaining(null!));
         }
+
+        // --------- Custom Deck Compositions ----------
+
+        [Fact]
+        public void CustomComposition_Null_Throws()
+        {
+            ArgumentNullException ex = Assert.Throws<ArgumentNullException>(() => new Deck(initialCards: null!));
+            Assert.Equal("initialCards", ex.ParamName);
+        }
+
+        [Fact]
+        public void CustomComposition_Empty_Throws()
+        {
+            ArgumentException ex = Assert.Throws<ArgumentException>(() => new Deck(Array.Empty<Card>()));
+            Assert.Equal("initialCards", ex.ParamName);
+            Assert.Contains("at least one card", ex.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void CustomComposition_CountAndCapacity_MatchInput()
+        {
+            var cards = new List<Card>
+            {
+                new Card((Suite)0, (Rank)1),  // A♠
+                new Card((Suite)1, (Rank)13), // K♥
+                Card.Joker(1)
+            };
+
+            var d = new Deck(cards);
+
+            Assert.Equal(cards.Count, d.Capacity);
+            Assert.Equal(cards.Count, d.Count);
+        }
+
+        [Fact]
+        public void CustomComposition_PreservesInitialOrder_BeforeShuffle()
+        {
+            var cards = new List<Card>
+            {
+                new Card((Suite)0, (Rank)1),   // A♠
+                new Card((Suite)2, (Rank)7),   // 7♦
+                new Card((Suite)3, (Rank)10),  // 10♣
+                Card.Joker(2)
+            };
+
+            var d = new Deck(cards);
+
+            // RemainingSpan should match the exact input order.
+            Assert.True(cards.SequenceEqual(d.RemainingSpan.ToArray()));
+        }
+
+        [Fact]
+        public void CustomComposition_Reset_RestoresOriginalOrder()
+        {
+            var cards = new List<Card>
+            {
+                new Card((Suite)0, (Rank)1),
+                new Card((Suite)1, (Rank)5),
+                new Card((Suite)2, (Rank)9),
+                new Card((Suite)3, (Rank)13),
+                Card.Joker(1)
+            };
+
+            var d = new Deck(cards);
+
+            // Shuffle, then Reset should restore original order.
+            d.Shuffle(new Pcg32Source(123));
+            d.Reset();
+
+            Assert.True(cards.SequenceEqual(d.RemainingSpan.ToArray()));
+        }
+
+        [Fact]
+        public void CustomComposition_Shuffle_IsDeterministic_WithSameSeed()
+        {
+            // Short-deck style (6..A) to ensure it's clearly non-standard.
+            var build = new Func<List<Card>>(() =>
+                (from s in Enumerable.Range(0, 4)
+                 from r in Enumerable.Range(6, 8) // 6..13
+                 select new Card((Suite)s, (Rank)r)).ToList()
+            );
+
+            var a = new Deck(build());
+            var b = new Deck(build());
+
+            var rngA = new Pcg32Source(42);
+            var rngB = new Pcg32Source(42);
+
+            a.Shuffle(rngA);
+            b.Shuffle(rngB);
+
+            Assert.Equal(a.RemainingSpan.ToArray(), b.RemainingSpan.ToArray());
+        }
+
+        [Fact]
+        public void CustomComposition_ShuffleRemaining_DoesNotReintroduceDrawn()
+        {
+            var cards = (from s in Enumerable.Range(0, 4)
+                         from r in Enumerable.Range(1, 13)
+                         select new Card((Suite)s, (Rank)r)).ToList();
+
+            var d = new Deck(cards);
+
+            // Draw a few cards from the custom composition.
+            var drawn = d.Draw(7);
+            var preCount = d.Count;
+
+            d.ShuffleRemaining(new Pcg32Source(7));
+
+            // Count unchanged; drawn cards are not reintroduced.
+            Assert.Equal(preCount, d.Count);
+
+            var drawnSet = new HashSet<Card>(drawn);
+            Assert.DoesNotContain(d.Remaining, c => drawnSet.Contains(c));
+        }
     }
 }
